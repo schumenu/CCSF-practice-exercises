@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megan's Day and Night</title>
+ 
+    <style>
+        h1 {
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            margin-top: 1.2rem;
+        }
+        button {
+            color: black;
+            background-color: rgb(120, 109, 206);
+            width: auto;
+            margin: 0 10px;
+            height: 30px;
+        }
+        section {
+            font-size: 1.2rem;
+        }
+        section h2 {
+            text-align: center;
+            font-size: 1.6rem;
+            font-style: italic;
+        }
+        figure {
+            text-align: center;
+            margin: 0 auto;
+        }
+        #HTMX\ question {
+            margin: 2rem 0; /* 2rem top/bottom, 0 left/right */
+            padding: 2rem;   /* Optional: adds space inside the section */
+        }
+    </style>
+</head>
+ 
+<body>
+    <header>
+        <h1>Megan's Day and Night</h1>
+    </header>
+    <section>
+        <h2>Adventures in jQuery</h2>
+        <p>Click on Light Theme button to make the page lighter, and Dark Theme to darken. </p>
+        <figure>
+            <img id="theme-image" src="sun.jpeg" alt="cartoon sun" width="300" height="280">
+        </figure>
+    </section>
+    <footer>
+        <button id="light">Light Theme</button>
+        <button id="dark">Dark Theme</button>
+    </footer>
+
+    <section id="HTMX question">
+        <h2>HTMX question</h2>
+        <p>
+            Is it possible to have multiple trigger types in HTMX? For example, suppose that I want to trigger the request when a select element changes or load and then display the response in an area of my page with id="result". So, if I have the following select element, how would I use/code the htmx attributes for this scenario? Notice that the POST request is already coded.
+        </p>
+        <h3>Megan's answer</h3>
+                <p>
+            Yes, if I wanted to trigger a result appearing when someone selects an item from the dropdown menu OR after 2 seconds pass I would use a comma between those two scenarios, using hx-trigger="click, keyup changed delay:2000ms"
+                <p></p>
+            The HTMX attributes that would be worth using in this scenario are:
+                <p></p>
+            1. hx-get="/get-image" to populate an image of the selected city
+                            <p></p>2. hx-target specifies where to put the response
+                            <p></p>3. hx-trigger="change" - The request happens when the dropdown value changes
+                        <p></p>
+            And if I’m feeling fancy or expect a delay:
+                            <p></p>1. hx-indicator="#loading" - Shows a loading indicator while the request is in progress
+                <p></p>
+            /api/search is used to engage the API endpoint, in the case of a GET request to retrieve the content needed for the page
+        
+    </section>
+
+    <script>
+        $(document).ready(function() {
+            const body = $('body');
+            const themeImage = $('#theme-image');
+
+            $('#light').click(function() {
+                body.css('background-color', 'white');
+                body.css('color', 'black');
+                themeImage.attr('src', 'sun.jpeg');
+            });
+            $('#dark').click(function() {
+                body.css('background-color', 'black');
+                body.css('color', 'white');
+                themeImage.attr('src', 'moon.jpeg');
+            });
+        }); 
+    </script> 
