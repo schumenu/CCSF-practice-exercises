@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Using D3 JS library">
+<title>D3</title>
+  <!-- <script src="https://d3js.org/d3.v7.min.js"></script> -->
+  <script src="d3.min.js"></script>
+</head>
+<body>
+<h1>JSON of Countries</h1>
+<p id="result"></p>
+<script>
+
+d3.json("https://raw.githubusercontent.com/iamspruce/intro-d3/main/data/countries-110m.geojson")
+  .then((data) => {
+      console.log(data)
+  })
+  .catch(() => {
+      document.getElementById('result').innerHTML = "Something was not right! No data!";
+  });
+</script>
+</body>
+</html>
