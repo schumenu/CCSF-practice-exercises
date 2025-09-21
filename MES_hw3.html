@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="D3 homework">
+<title>Megan's D3 Homework</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+#chart rect{
+  fill: #4aaeea;
+}
+
+#chart text{
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end; 
+}
+
+.axis text{
+  font: 10px sans-serif;
+}
+
+.axis path, .axis line{
+  fill: none;
+  stroke : #fff;
+  shape-rendering: crispEdges;
+}
+
+body{
+  background: #1a1a1a;
+  color : #eaeaea;
+  padding : 10px;
+}
+</style>
+</head>
+<body>
+<div id="chart"></div> 
+</body>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+ <svg width="600" height="600"></svg>
+
+<script>
+ 
+    const width = 500;
+    const height = 250;
+    const margin = { top: 40, right: 20, bottom: 30, left: 40 };
+
+    // Create the SVG and a group element with margins
+    const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Add a title to the chart
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -margin.top / 2)
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("fill", "white")
+        .text("Student enrollment 2016 - 2018");
+
+    // Add a tooltip div to the body
+    const tooltip = d3.select("body").append("div")
+        .attr("id", "tooltip")
+        .style("position", "absolute")
+        .style("opacity", 0)
+        .style("background", "#333")
+        .style("color", "white")
+        .style("padding", "5px")
+        .style("border-radius", "5px");
+
+    // Load the data
+    d3.json("hw3data.json").then(function(data) {
+
+        const xScale = d3.scaleBand()
+            .domain(data.map(d => d.term))
+            .range([0, width])
+            .padding(0.1);
+
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.students)])
+            .range([height, 0]);
+
+        // Draw the bars and add event listeners for the tooltip
+        svg.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", d => xScale(d.term))
+            .attr("y", d => yScale(d.students))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => height - yScale(d.students))
+            .on("mouseover", function(event, d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html("Students: " + d.students)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
+        // Add the axes
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale));
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(d3.axisLeft(yScale));
+    });
+</script>
+
+
+	  
