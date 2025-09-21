@@ -92,7 +92,7 @@ body{
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
-                tooltip.html("Students: " + d.students)
+                tooltip.html("Students: " + d.students + "<br>Term: " + d.term)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
